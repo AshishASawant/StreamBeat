@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 
-// const BASE_URL = "https://stream-beat-api.vercel.app/api";
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://stream-beat-api.vercel.app/api";
+// const BASE_URL = "http://localhost:5000/api";
 const AUTH_TOKEN = localStorage.getItem('authToken');
 
 const headers = {
