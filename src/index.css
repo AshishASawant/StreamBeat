@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;700;800;900&display=swap');
+
+body {
+  /* background:linear-gradient(transparent,rgba(0,0,0,1));
+  background-color: rgba(32,87,100); */
+  background-color: rgb(31, 28, 28);
+
+  /* background-color: black; */
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  height: 100vh;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+.music-height {
+  height: 100vh;
+  padding-top: 50px;
+}
+
+#seek-bar {
+  overflow: hidden;
+}
+
+
+.hide-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+.swiper-pagination {
+  transform: translateY(-30px) !important;
+}
+
+.outlet-height {
+  height: calc(100% - 96px);
+}
+
+.img-gradient {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background: rgb(62, 65, 66);
+  background: linear-gradient(180deg, rgba(62, 65, 66, 0.014618347338935522) 24%, rgba(3, 4, 0, 1) 100%); */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+}
+
+.circle {
+  stroke: white;
+  stroke-dasharray: 650;
+  stroke-dashoffset: 650;
+  -webkit-transition: all 0.5s ease-in-out;
+  opacity: 0.3;
+}
+
+.playBut {
+  /* border: 1px solid red; */
+  display: inline-block;
+  -webkit-transition: all 0.5s ease;
+}
+
+.playBut .triangle {
+  -webkit-transition: all 0.7s ease-in-out;
+  stroke-dasharray: 240;
+  stroke-dashoffset: 480;
+  stroke: white;
+  transform: translateY(0);
+}
+
+.play-con:hover .triangle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  stroke: red;
+  animation: nudge 0.7s ease-in-out;
+}
+
+.playBut:hover .triangle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  stroke: red;
+  animation: nudge 0.7s ease-in-out;
+}
+
+.react-select__control {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background-color: rgb(31, 28, 28) !important;
+  border-radius: 20px;
+}
+
+.react-select__menu {
+  background-color: rgb(31, 28, 28) !important;
+}
+
+.react-select__menu-list::-webkit-scrollbar {
+  width: 0;
+}
+
+.react-select__multi-value {
+  background-color: black !important;
+}
+
+.react-select__multi-value__label {
+  color: white !important;
+}
+
+.react-select__input-container {
+  /* background-color: black !important; */
+  color: white !important;
+}
+
+.react-select__input {
+  color: white !important;
+}
+
+.swiper-card {
+  width: min-content !important;
+}
+
+
+
+@keyframes nudge {
+  0% {
+    transform: translateX(0);
+  }
+
+  30% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  70% {
+    transform: translateX(-2px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.playBut:hover .circle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  stroke: red;
+}
+
+.play-con:hover .circle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  stroke: red;
+}
+
+.playBut {
+  width: 100%;
+  height: 100%;
+}
+
+.triangle,
+.circle {
+  width: 100%;
+  height: 100%;
+}
+
+.movie-scroll-nav .swiper-button-prev,
+.movie-scroll-nav .swiper-button-next {
+  color: #ff0000 !important;
+  font-size: 15px !important;
+
+}
+
+.music-scroll-nav .swiper-button-prev,
+.music-scroll-nav .swiper-button-next {
+  color: green !important;
+}
+
+.swiper-button-next::after ,.swiper-button-prev::after{
+  font-size: 50px !important;
+  font-weight: 700;
+}
+
+@media screen and (max-width:768px){
+  .swiper-button-next::after , .swiper-button-prev::after{
+  display: none ;
+  }
+  
+}
