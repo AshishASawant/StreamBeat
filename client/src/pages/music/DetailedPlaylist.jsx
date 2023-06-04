@@ -33,6 +33,7 @@ const DetailedPlaylist = () => {
     }else{
       getPlaylistData(params?.id);
     }
+    // eslint-disable-next-line
   }, [params?.id]);
 
   const getPlaylistData = (id) => {
@@ -57,7 +58,7 @@ const DetailedPlaylist = () => {
     try {
       const url = `/playlist/${state?.presentPlaylist}`;
       const body = null;
-      const response = await fetchBackendData("DELETE", url, body);
+      fetchBackendData("DELETE", url, body);
       navigate('../library')
     } catch (error) {
       console.error(error);
@@ -70,11 +71,11 @@ const DetailedPlaylist = () => {
   return (
     <div className="overflow-y-scroll hide-scroll w-full text-text-primary px-2 relative">
       <div className="flex gap-5 w-full">
-          <LazyLoadImage
+          {!loading && <LazyLoadImage
             effect="blur"
             src={state?.images[0]?.url || `https://picsum.photos/640?random=${state.allTrackData._id}`}
             className="rounded-md md:h-[20rem] md:w-[20rem] sm:h-[15rem] sm:w-[15rem] h-[10rem] w-[10rem] "
-            />
+            />}
         <div className="self-end flex-1 ">
           <div className="flex gap-10 mb-3 items-center ">
         <button className="rounded-full bg-green-600  text-black grid place-items-center text-4xl p-3 aspect-square">

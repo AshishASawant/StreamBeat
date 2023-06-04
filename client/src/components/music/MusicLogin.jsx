@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { loginEndpoint, setClientToken } from "../../utils/spotify";
 import { useLocation } from "react-router-dom";
-import { exchangeCodeForTokens } from "../../utils/spotify";
 import logo from '../../assets/stream-beat logo.png'
 
 const MusicLogin = ({ setToken }) => {

@@ -30,6 +30,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
 
   useEffect(() => {
     setVideoId(video?.key);
+    // eslint-disable-next-line
   }, [video]);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
     checkWatchLaterExists(item.id).then((res) => {
       setWatchLater(res)
     });
+    // eslint-disable-next-line
   }, [item?.id]);
 
   const checkFavExists = async (itemId) => {
@@ -52,7 +54,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
     try {
       const url = `/favourite/movie/`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("POST", url, body);
+      fetchBackendData("POST", url, body);
       setIsFavourite(true);
       // Handle the response as needed
     } catch (error) {
@@ -65,7 +67,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
     try {
       const url = `/favourite/movie`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("DELETE", url, body);
+      fetchBackendData("DELETE", url, body);
       setIsFavourite(false);
       // Handle the response as needed
     } catch (error) {
@@ -91,7 +93,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
     try {
       const url = `/watchlater/movie`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("POST", url, body);
+      fetchBackendData("POST", url, body);
       setWatchLater(true)
       // Handle the response as needed
     } catch (error) {
@@ -104,7 +106,7 @@ const DetailsBanner = ({ item, video, crew, loading, mediatype }) => {
     try {
       const url = `/watchlater/movie`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("DELETE", url, body);
+      fetchBackendData("DELETE", url, body);
       setWatchLater(false)
       // Handle the response as needed
     } catch (error) {

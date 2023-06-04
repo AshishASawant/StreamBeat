@@ -4,7 +4,6 @@ import PosterFallBack from "../../assets/no-poster.png";
 import dayjs from "dayjs";
 import Rating from "./Rating";
 import { useNavigate } from "react-router-dom";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -14,11 +13,12 @@ import { fetchDataFromApi } from "../../utils/movieApi";
 const MovieCard = ({ id, mediatype }) => {
   const navigate = useNavigate();
 
-  const { url, loading } = useSelector((state) => state.home);
+  const { url } = useSelector((state) => state.home);
   const [data, setData] = useState(null)
 
   useEffect(() => {
     fetchDataFromApi(`/${mediatype}/${id}`).then(res=>setData(res))
+    // eslint-disable-next-line
   }, [id])
   
 

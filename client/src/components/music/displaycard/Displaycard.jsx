@@ -1,6 +1,5 @@
 import React from 'react'
 import {BsFillPlayCircleFill} from 'react-icons/bs'
-import {BiDotsVerticalRounded} from 'react-icons/bi'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,17 +10,6 @@ const Displaycard = ({title,subtitle,img,click,link,item,isMin}) => {
   return (
       
         <div className="w-full md:p-3 p-2 bg-bg-primary hover:bg-bg-secondary text-text-primary relative grid gap-2 rounded-md h-full " >
-          
-          {/* <div className='absolute top-4 right-4 z-10'>
-            <button className=' hover:bg-bg-main rounded-full text-xl'>
-            <BiDotsVerticalRounded/>
-            </button>
-            <div>
-              <div>
-
-              </div>
-            </div>
-          </div> */}
           <div className={`${isMin?'min-w-[7rem]  lg:min-w-[11rem]':""} w-full aspect-square p-0 overflow-hidden `}>
           <LazyLoadImage effect='blur' src={img} alt="Artist" className='aspect-square w-full rounded-md  cursor-pointer' onClick={()=>link? navigate(`../playlist/${item?.id}`,{state:item}):click()} />
           </div>

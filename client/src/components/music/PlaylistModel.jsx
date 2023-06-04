@@ -26,7 +26,7 @@ const PlaylistModel = ({
       const body = { name: newPlaylistName, type };
       setCreateNew(false);
       setNewPlaylistName("");
-      const response = await fetchBackendData("POST", url, body);
+      fetchBackendData("POST", url, body);
       getPlaylist();
       // Handle the response as needed
     } catch (error) {
@@ -50,7 +50,7 @@ const PlaylistModel = ({
     try {
       const url = `/playlist/${playlistId}/add`;
       const body = { musicId };
-      const response = await fetchBackendData("POST", url, body);
+      fetchBackendData("POST", url, body);
       setIsModel(false);
     } catch (error) {
       console.error(error);
@@ -62,7 +62,7 @@ const PlaylistModel = ({
     try {
       const url = `/playlist/${playlistId}/remove`;
       const body = { musicId };
-      const response = await fetchBackendData("DELETE", url, body);
+      fetchBackendData("DELETE", url, body);
       setShouldReturn(false);
     } catch (error) {
       console.error(error);

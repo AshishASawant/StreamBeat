@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
-import { fetchBackendData } from "../../utils/backendApi";
-import GetDataMovieCard from "../../components/movie/GetDataMovieCard";
 import Favourite from "./Favourite";
 import WatchLater from "./WatchLater";
 

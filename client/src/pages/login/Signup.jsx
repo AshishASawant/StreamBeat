@@ -15,7 +15,9 @@ const Signup = () => {
     dispatch(setProgress(40));
     let body = { name: userName, email: userEmail, password: userPassword };
     let res = await fetchBackendData("POST", "/user/register", body);
-    dispatch(setProgress(100));
+    if(res){
+      dispatch(setProgress(100));
+    }
   };
   return (
     <div className="flex h-full w-full items-center justify-center px-2">

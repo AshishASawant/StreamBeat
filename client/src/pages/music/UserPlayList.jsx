@@ -20,6 +20,7 @@ const UserPlayList = ({ prop }) => {
 
   useEffect(() => {
     getTrackData();
+    // eslint-disable-next-line
   }, []);
 
   const getTrackData = () => {
@@ -37,7 +38,7 @@ const UserPlayList = ({ prop }) => {
     try {
       const url = `/playlist/${data._id}`;
       const body = { name:newPlaylistName };
-      const response = await fetchBackendData("PUT", url, body);
+      fetchBackendData("PUT", url, body);
       setIsEdit(false)   
       setData({...data,'name':newPlaylistName})
       setNewPlaylistName('')

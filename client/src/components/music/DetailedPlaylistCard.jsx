@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { IoPlay } from "react-icons/io5";
@@ -15,6 +15,7 @@ const DetailedPlaylistCard = ({ item, index,click,fav,presentPlaylist }) => {
     checkFavExists(item?.id,'music').then((res) => {
       setFavourite(res)
     });
+    // eslint-disable-next-line
   }, [item?.id]);
 
   const checkFavExists = async (itemId,mediatype) => {
@@ -35,7 +36,7 @@ const DetailedPlaylistCard = ({ item, index,click,fav,presentPlaylist }) => {
     try {
       const url = `/favourite/music/`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("POST", url, body);
+      fetchBackendData("POST", url, body);
       setFavourite(true);
       // Handle the response as needed
     } catch (error) {
@@ -49,7 +50,7 @@ const DetailedPlaylistCard = ({ item, index,click,fav,presentPlaylist }) => {
     try {
       const url = `/favourite/music`;
       const body = { itemId, mediatype };
-      const response = await fetchBackendData("DELETE", url, body);
+      fetchBackendData("DELETE", url, body);
       setFavourite(false);
       // Handle the response as needed
     } catch (error) {
