@@ -80,9 +80,9 @@ const Library = () => {
         <Loading />
       ) : (currentSearchType==='playlist'?
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 px-2 md:px-0 lg:gap-5 gap-2">
-          {userPlayList.map(data=><UserPlayList prop={data}  key={data._id}/>
+          {userPlayList?.map(data=><UserPlayList prop={data}  key={data._id}/>
             )}
-          {playList.map((item) => {
+          {playList?.map((item) => {
             return (
               <Displaycard
                 key={item.id}
