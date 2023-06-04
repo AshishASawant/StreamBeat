@@ -26,18 +26,20 @@ const Playlist = () => {
         }
         setLoading(false);
       });
+       // eslint-disable-next-line
   }, [lib]);
 
-  // const getPlaylist = (id) => {
-  //   setChangeTrack(id);
-  // };
+ 
 
   return (
-    <div className="overflow-hidden w-full">
+    <div className="w-full text-text-primary overflow-hidden overflow-y-scroll hide-scroll py-4">
+      <div className="flex items-center justify-between  mb-4">
+        <h1 className="sm:text-3xl text-2xl md:px-0 px-2">Explore Playlists</h1>
+      </div>
       {loading ? (
         <Loading />
       ) : (
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 px-2 md:px-0 lg:gap-5 gap-2 max-h-full overflow-y-scroll overflow-x-hidden hide-scroll pb-5">
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 px-2 md:px-0 lg:gap-5 gap-2">
           {tplayList?.map((item) => {
             return (
               <Displaycard
@@ -46,7 +48,11 @@ const Playlist = () => {
                 img={item?.images[0]?.url}
                 title={item.name}
                 subtitle={item.tracks?.total}
-                click={() => setChangeTrack(item.id)}
+                click={() => {
+                  setChangeTrack(item.id);
+                }}
+                link={true}
+                item={item}
               />
             );
           })}

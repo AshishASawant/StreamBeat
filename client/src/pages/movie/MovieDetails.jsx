@@ -43,13 +43,13 @@ const MovieDetails = () => {
 
   return (
     <div className="pb-16 overflow-hidden bg-center bg-no-repeat" style={{
-      backgroundImage: `linear-gradient(180deg,rgba(0, 0, 0, 0.4), rgba(31, 28, 28, 1)),url(${
+      backgroundImage: `linear-gradient(180deg,rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)),url(${
         url.backdrop + movieDetail?.backdrop_path
       })`,
-      backgroundSize:'100% 650px',
+      backgroundSize:'100% 700px',
       backgroundPositionY:'0px'
     }}>
-      <DetailsBanner item={movieDetail} video={demoUrl?.results?.[0]} crew={credit?.crew} loading={loading}/>
+      <DetailsBanner item={movieDetail} mediatype={mediatype} video={demoUrl?.results?.[0]} crew={credit?.crew} loading={loading}/>
       <Cast cast={credit?.cast} loading={""}/>
       <OfficialVideos videos={demoUrl?.results}/>
       <Recommendation mediatype={mediatype} id={id}/>

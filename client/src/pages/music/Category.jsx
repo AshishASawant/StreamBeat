@@ -16,9 +16,12 @@ const Categorie = () => {
 
 
   return (
-    <div className="overflow-hidden w-full">
+    <div className="w-full text-text-primary overflow-y-scroll overflow-x-hidden  hide-scroll py-4 ">
+      <div className="flex items-center justify-between overflow-hidden overflow-y-scroll hide-scroll mb-4">
+        <h1 className="sm:text-3xl text-2xl md:px-0 px-2">Explore Category</h1>
+      </div>
       {loading?<Loading/>:
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-5 gap-2  max-h-full  overflow-y-scroll overflow-x-hidden hide-scroll  pb-5 md:px-0 px-2">
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-5 gap-2  md:px-0 px-2">
         {categories?.map((item)=>{
         return(<Displaycard key={item.id} id={item.id} title={item.name} img={item?.icons[0]?.url } subtitle={item.tracks?.total} click={()=>newCategorie(item.id)} / >) 
         })}

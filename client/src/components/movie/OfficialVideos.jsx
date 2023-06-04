@@ -11,7 +11,7 @@ const OfficialVideos = ({ videos }) => {
       <h1 className="text-3xl my-5">Official Videos</h1>
       <div className="flex overflow-y-hidden overflow-x-scroll gap-5 hide-scroll flex-none">
         {videos?.map((item) => (
-          <div className="">
+          <div className="" key={item.id}>
             <div
               className="w-[23rem] aspect-video  grid place-items-center rounded-md bg-center bg-cover"
               style={{

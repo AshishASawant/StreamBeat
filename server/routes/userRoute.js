@@ -5,6 +5,8 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtSecretKey = "try to hack this";
+const Favorite = require("../models/favouriteModel");
+const WatchLater = require('../models/watchLaterModel')
 const  userAuth  = require("../middleware/userAuth");
 
 // Route: POST /api/user/register
@@ -22,7 +24,7 @@ router.post(
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ status:'false',errors: errors.array() });
+      return res.status(400).json({ status: 'false', errors: errors.array() });
     }
 
     const { name, email, password } = req.body;
@@ -31,7 +33,7 @@ router.post(
       // Check if user with the same email already exists
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ status:'false',message: "User already exists" });
+        return res.status(400).json({ status: 'false', message: "User already exists" });
       }
 
       // Create a new user instance
@@ -44,14 +46,20 @@ router.post(
       // Save the user to the database
       await user.save();
 
-      res.status(201).json({ status:'true',message: "User registered successfully" });
+      // Create a favorite for the new user
+      const favorite = new Favorite({ user: user._id });
+      await favorite.save();
+      //crete a watchLater Model
+      const watchLater = new WatchLater({ user: user._id });
+      await watchLater.save();
+
+      res.status(201).json({ status: 'true', message: "User registered successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ status:'false',message: "Server Error" });
+      res.status(500).json({ status: 'false', message: "Server Error" });
     }
   }
 );
-
 // Route: POST /api/user/login
 // Description: Login and generate a JWT token
 router.post(

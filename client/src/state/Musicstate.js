@@ -19,17 +19,23 @@ const Musicstate = (props) => {
   const [newRelease, setNewRelease] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  let prevTrack = localStorage.getItem("prevPlayingTrack");
+  let prevIndex = parseInt(localStorage.getItem("prevPlayingIndex"));
 
   const getCategory = () => {
     apiClient.get(`browse/categories`).then(({ data }) => {
       setcategories(data.categories.items);
       setLib(data.categories.items[0].id);
-
-      apiClient
-        .get(`browse/categories/${data.categories.items[0].id}/playlists`)
-        .then(({ data }) => {
-          setChangeTrack(data.playlists.items[0].id);
-        });
+      if (prevTrack && prevTrack.length>2) {
+        setTracks(JSON.parse(prevTrack));
+        setCurrentIndex(prevIndex || 0);
+      } else {
+        apiClient
+          .get(`browse/categories/${data.categories.items[0].id}/playlists`)
+          .then(({ data }) => {
+            setChangeTrack(data.playlists.items[0].id);
+          });
+      }
     });
   };
 
@@ -73,7 +79,6 @@ const Musicstate = (props) => {
 
   useEffect(() => {
     if (isPlaying) {
-      console.log("playing");
       audio.play();
     } else {
       audio.pause();
@@ -83,21 +88,27 @@ const Musicstate = (props) => {
 
   useEffect(() => {
     setCurrentTrack(tracks[0]?.track);
-    setCurrentIndex(0);
-    audio.src = tracks[0]?.track?.preview_url;
+    if (initialLoad && prevIndex) {
+      setCurrentIndex(prevIndex);
+      audio.src = tracks[prevIndex]?.track?.preview_url;
+    } else {
+      audio.src = tracks[0]?.track?.preview_url;
+      setCurrentIndex(0);
+      }
     if (!initialLoad) {
       setIsPlaying(true);
       audio.play();
     }
+    localStorage.setItem("prevPlayingTrack", JSON.stringify(tracks));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tracks]);
 
   useEffect(() => {
     audio.src = tracks[currentIndex]?.track?.preview_url;
     if (!initialLoad) {
-      console.log("here");
       setIsPlaying(true);
       audio.play();
+      localStorage.setItem("prevPlayingIndex", currentIndex);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
@@ -183,15 +194,15 @@ const Musicstate = (props) => {
     }
   };
 
-  document.body.onkeyup = function (e) {
-    if (
-      (e.key === " " || e.code === "Space") &&
-      window.location.pathname !== "/music/search" &&
-      window.location.pathname !== "/movie/search"
-    ) {
-      isPlaying ? setIsPlaying(false) : setIsPlaying(true);
-    }
-  };
+  // document.body.onkeyup = function (e) {
+  //   if (
+  //     (e.key === " " || e.code === "Space") &&
+  //     window.location.pathname !== "/music/search" &&
+  //     window.location.pathname !== "/movie/search"
+  //   ) {
+  //     isPlaying ? setIsPlaying(false) : setIsPlaying(true);
+  //   }
+  // };
   return (
     <musicContext.Provider
       value={{

@@ -95,8 +95,8 @@ const onChange = (selectedItems, action) => {
 };
 
   return (
-    <div className="px-2 md:pl-movie-left mt-[80px] text-text-primary w-full hide-scroll">
-      <div className="flex items-center justify-between flex-col md:flex-row hide-scroll">
+    <div className="px-2 md:pl-movie-left mt-[80px] text-text-primary w-full hide-scroll pb-14">
+      <div className="flex items-center justify-between flex-col md:flex-row hide-scroll gap-3">
         <h1 className="capitalize text-3xl">
           Explore {mediatype === "tv" ? "Tv Shows" : "Movies"}
         </h1>
@@ -131,11 +131,12 @@ const onChange = (selectedItems, action) => {
         next={fetchNextPageData}
         hasMore={true}
         loader={<MovieCardLoading/>}
-        className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-1 gap-y-5 mt-10"
-      >
+        // loader={<p>loading....</p>}
+        className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-1 gap-y-5 mt-10 hide-scroll "
+        >
         {data?.results?.map((item) => (
           <MovieCard key={item.id} data={item} mediaType={mediatype} />
-        ))}
+          ))}
       </InfiniteScroll>
     </div>
   );

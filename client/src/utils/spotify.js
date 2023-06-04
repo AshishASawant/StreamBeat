@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 const client_id = process.env.REACT_APP_CLIENT_ID2; // client id ---development app 
+const client_secret='90d37eac0701466089029e223d48e307'
 const redirect_uri = 'http://localhost:3000/music/login'; //  redirect uri ---development app
 const authEndpoint = 'https://accounts.spotify.com/authorize?';
 const scopes = ['user-library-read', 'playlist-read-private'];
+const tokenEndpoint = 'https://accounts.spotify.com/api/token';
 
 export const loginEndpoint = `${authEndpoint}client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
 
@@ -22,26 +24,38 @@ export const getClientToken = () => {
   return token;
 };
 
-export const refreshToken = async () => {
+let refreshToken=localStorage.getItem('token')
+
+export const exchangeCodeForTokens = async (authorizationCode) => {
   try {
-    const response = await axios.post('https://accounts.spotify.com/api/token', null, {
+    const response = await axios.post(tokenEndpoint, null, {
       params: {
-        grant_type: 'refresh_token',
-        refresh_token: localStorage.getItem('token'),
-        client_id,
+        grant_type: 'authorization_code',
+        code: authorizationCode,
+        redirect_uri: redirect_uri,
+        client_id: client_id,
+        client_secret: client_secret,
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    const newToken = response.data.access_token;
-    setClientToken(newToken);
-    return newToken;
+
+    const { access_token, refresh_token } = response.data;
+
+    setClientToken(access_token);
+    refreshToken = refresh_token;
+    console.log(refresh_token)
+
+    // Store the refresh token securely for future use
+
+    return access_token;
   } catch (error) {
-    console.error('Error refreshing token:', error);
+    console.error('Error exchanging code for tokens:', error.response.data);
     throw error;
   }
 };
+
 
 apiClient.interceptors.response.use(
   (response) => response,

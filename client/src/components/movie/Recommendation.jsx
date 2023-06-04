@@ -26,7 +26,7 @@ const Recommendation = ({ mediatype, id }) => {
       <div>
       <Swiper {...swiperConfig} slidesPerGroupAuto>
             {recommendation?.results?.map((item) => (
-              <SwiperSlide className="swiper-card">
+              <SwiperSlide className="swiper-card" key={item.id}>
                 <MovieCard
                   key={item.id}
                   data={item}

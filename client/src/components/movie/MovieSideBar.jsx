@@ -62,7 +62,7 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink
-            to="/movie/watchlater"
+            to="/movie/library"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
             style={({ isActive }) =>
               isActive ? { color: "white" } : { color: "grey" }

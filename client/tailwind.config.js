@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        'bg-primary':"black",
-        // 'bg-secondary':"grey",
+        // 'bg-primary':"black",
+        'bg-primary':"rgb(31,28,28)",
         'bg-secondary':"black",
         "bg-dull":'silver',
         "bg-main":'rgb(31, 28, 28)',
@@ -17,6 +17,9 @@ module.exports = {
       },
       padding:{
         'movie-left':'9rem'
+      },
+      screens:{
+        'xs':'426px'
       }
     },
   },

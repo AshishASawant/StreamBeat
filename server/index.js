@@ -16,7 +16,9 @@ app.use(cors());
 
 //Available routes
 app.use("/api/user", require("./routes/userRoute"));
-// app.use("/api/notes", require("./routes/notesroutes"));
+app.use("/api/favourite", require("./routes/favouriteRoute"));
+app.use("/api/watchlater", require("./routes/watchLaterRoute"));
+app.use("/api/playlist", require("./routes/playlistRoute"));
 
 //listen
 app.listen(port, () => {

@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GiCancel } from "react-icons/gi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { AiOutlineLogin } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateLoginState } from "../state/loginSlice";
-const Account = ({ setMenu }) => {
+import musicContext from "../state/musicContext";
+const Account = ({ setMenu,setToken }) => {
+
+  
+  let context = useContext(musicContext);
+  let { audio } = context;
+
   const navigate=useNavigate()
   const dispatch=useDispatch()
   return (
@@ -36,7 +42,15 @@ const Account = ({ setMenu }) => {
             <AiOutlineLogin className="text-xl whitespace-nowrap" />
             <span>Log Out App</span>
           </button>
-          <button className="bg-red-700 flex p-2 items-center gap-2 rounded-md flex-1 justify-center whitespace-nowrap">
+          <button className="bg-red-700 flex p-2 items-center gap-2 rounded-md flex-1 justify-center whitespace-nowrap" onClick={(e) => {
+            e.preventDefault();
+            setMenu(false)
+            audio.pause();
+            setToken("");
+            localStorage.removeItem("token");
+            
+            navigate('/music/login')
+          }}>
             <AiOutlineLogin className="text-xl whitespace-nowrap" />
             <span>Log Out Music</span>
           </button>

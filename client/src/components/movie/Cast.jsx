@@ -9,7 +9,7 @@ const Cast = ({cast}) => {
             <div className='flex overflow-y-hidden overflow-x-scroll flex-none gap-5 hide-scroll'>
                 {
                     cast?.map(member=>(
-                        <CastCard member={member}/>
+                        <CastCard member={member} key={member.id}/>
                     ))
                 }
 

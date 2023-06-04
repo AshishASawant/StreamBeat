@@ -6,7 +6,6 @@ import { BiSearchAlt } from "react-icons/bi";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { RiPlayListFill, RiLogoutCircleRLine } from "react-icons/ri";
 import musicContext from "../../state/musicContext";
-import apiClient from "../../utils/spotify";
 
 const SideBar = ({ setToken }) => {
   const navigate=useNavigate()
@@ -14,15 +13,6 @@ const SideBar = ({ setToken }) => {
   let context = useContext(musicContext);
   let { audio } = context;
 
-  useEffect(() => {
-    apiClient.get("me").then(({ data }) => {
-      if (data?.images?.length) {
-        document.querySelector(
-          ".user-image"
-        ).style.backgroundImage = `url(${data?.images[0]?.url})`;
-      }
-    });
-  }, []);
 
   return (
     <div className="md:w-20 w-screen flex  items-center  h-full md:ml-3 overflow-hidden md:pb-3">

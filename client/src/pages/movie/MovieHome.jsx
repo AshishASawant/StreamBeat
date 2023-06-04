@@ -57,7 +57,7 @@ const MovieHome = () => {
             className="mySwiper"
           >
             {heroBannerData?.map((item) => (
-              <SwiperSlide>
+              <SwiperSlide key={item?.id}>
                 <HeroBanner key={item.id} item={item} loading={loading} />
               </SwiperSlide>
             ))}
@@ -77,7 +77,7 @@ const MovieHome = () => {
         <div>
           <Swiper {...swiperConfig} slidesPerGroupAuto>
             {trending?.data?.map((item) => (
-              <SwiperSlide className="swiper-card">
+              <SwiperSlide className="swiper-card" key={item?.id}>
                 <MovieCard
                   key={item.id}
                   data={item}
@@ -103,7 +103,7 @@ const MovieHome = () => {
            {...swiperConfig}
           >
             {popular?.data?.map((item) => (
-              <SwiperSlide className="swiper-card">
+              <SwiperSlide className="swiper-card" key={item?.id}>
                 <MovieCard
                   key={item.id}
                   data={item}
@@ -128,7 +128,7 @@ const MovieHome = () => {
           <Swiper {...swiperConfig} slidesPerGroupAuto slidesPerView={'auto'}
           >
             {topRated?.data?.map((item) => (
-              <SwiperSlide className="swiper-card">
+              <SwiperSlide className="swiper-card" key={item?.id}>
                 <MovieCard
                   key={item.id}
                   data={item}
