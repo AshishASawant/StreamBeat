@@ -24,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TopLoading from "./components/TopLoading";
 import DetailedPlaylist from "./pages/music/DetailedPlaylist";
+import PersonDetails from "./pages/movie/PersonDetails";
 
 const App = () => {
   const { current } = useSelector((state) => state.app);
@@ -125,6 +126,7 @@ const App = () => {
                   element={<MovieDetails />}
                 />
                 <Route exact path="/movie/search" element={<MovieSearch />} />
+                <Route exact path="/movie/person/:id" element={<PersonDetails/>} />
                 <Route
                   exact
                   path="/movie/library"

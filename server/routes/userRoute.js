@@ -6,8 +6,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const jwtSecretKey = "try to hack this";
 const Favorite = require("../models/favouriteModel");
-const WatchLater = require('../models/watchLaterModel')
-const  userAuth  = require("../middleware/userAuth");
+const WatchLater = require("../models/watchLaterModel");
+const userAuth = require("../middleware/userAuth");
+const multer = require('multer');
+
+// Create a storage engine
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Route: POST /api/user/register
 // Description: Register a new user
@@ -24,7 +29,7 @@ router.post(
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ status: 'false', errors: errors.array() });
+      return res.status(400).json({ status: "false", errors: errors.array() });
     }
 
     const { name, email, password } = req.body;
@@ -33,7 +38,9 @@ router.post(
       // Check if user with the same email already exists
       let user = await User.findOne({ email });
       if (user) {
-        return res.status(400).json({ status: 'false', message: "User already exists" });
+        return res
+          .status(400)
+          .json({ status: "false", message: "User already exists" });
       }
 
       // Create a new user instance
@@ -53,10 +60,12 @@ router.post(
       const watchLater = new WatchLater({ user: user._id });
       await watchLater.save();
 
-      res.status(201).json({ status: 'true', message: "User registered successfully" });
+      res
+        .status(201)
+        .json({ status: "true", message: "User registered successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ status: 'false', message: "Server Error" });
+      res.status(500).json({ status: "false", message: "Server Error" });
     }
   }
 );
@@ -72,7 +81,7 @@ router.post(
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ status:'false',errors: errors.array() });
+      return res.status(400).json({ status: "false", errors: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -87,7 +96,9 @@ router.post(
       // Compare the password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).json({ status:'false',message: "Invalid credentials" });
+        return res
+          .status(400)
+          .json({ status: "false", message: "Invalid credentials" });
       }
 
       // Generate a JWT token
@@ -98,22 +109,29 @@ router.post(
       };
 
       // const token = jwt.sign(payload, jwtSecretKey, { expiresIn: "1h" });
-      const token = jwt.sign(payload, jwtSecretKey, );
+      const token = jwt.sign(payload, jwtSecretKey);
 
-      res.json({ status:'true',token,message:'Welcome Back '+ (user.name).charAt(0).toUpperCase()+(user.name).slice(1) });
+      res.json({
+        status: "true",
+        token,
+        message:
+          "Welcome Back " +
+          user.name.charAt(0).toUpperCase() +
+          user.name.slice(1),
+      });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ status:'false',message: "Server Error" });
+      res.status(500).json({ status: "false", message: "Server Error" });
     }
   }
 );
 
-// Route: GET /api/user/getUser
+// Route: GET /api/user/user
 // Description: Get user information by user email and password
 router.get("/user", userAuth, async (req, res) => {
   try {
     // Retrieve the user ID from the authenticated request
-    const userId = req.user.id;
+    const userId = req.userId;
 
     // Find the user by their ID
     const user = await User.findById(userId);
@@ -122,14 +140,91 @@ router.get("/user", userAuth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Return the user data
-    res.json(user);
+    // Convert the image data to base64
+    const imageBase64 = user.image.toString('base64');
+
+    // Create a new user object with limited properties
+    const userData = {
+      name: user.name,
+      email: user.email,
+      image: imageBase64,
+      createdAt: user.createdAt
+    };
+
+    // Return the limited user data
+    res.json(userData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 });
 
-  
+router.post('/uploadImage', userAuth, upload.single('image'), async (req, res) => {
+  try {
+    const userId = req.userId;
+    const image = req.file;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update the image field in the user schema
+    user.image = image.buffer;
+    await user.save();
+
+    res.json({ message: 'Image uploaded successfully', image: image.buffer.toString('base64') });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+router.put(
+  '/updateProfile',
+  userAuth,
+  [
+    body('name')
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('Name must be at least 3 characters long'),
+    body('email')
+      .trim()
+      .isEmail()
+      .withMessage('Invalid email address'),
+  ],
+  async (req, res) => {
+    try {
+      const userId = req.userId;
+      const { name, email } = req.body;
+      const updateData = {};
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      if (name) {
+        updateData.name = name;
+      }
+
+      if (email) {
+        updateData.email = email;
+      }
+
+      const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json({ message: 'Profile updated successfully', user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  }
+);
+
 
 module.exports = router;

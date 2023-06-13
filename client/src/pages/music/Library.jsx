@@ -16,8 +16,8 @@ const Library = () => {
   const [userPlayList, setUserPlayList] = useState([]);
 
   useEffect(() => {
-    getPlaylist();
-  }, []);
+    if (currentSearchType==='playlist') getPlaylist();
+  }, [currentSearchType]);
 
   const getPlaylist = async () => {
     try {

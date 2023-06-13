@@ -50,8 +50,8 @@ const MovieDetails = () => {
       backgroundPositionY:'0px'
     }}>
       <DetailsBanner item={movieDetail} mediatype={mediatype} video={demoUrl?.results?.[0]} crew={credit?.crew} loading={loading}/>
-      <Cast cast={credit?.cast} loading={""}/>
-      <OfficialVideos videos={demoUrl?.results}/>
+      {credit?.cast.length!==0 && <Cast cast={credit?.cast} loading={""}/>}
+      {demoUrl?.results.length!==0 && <OfficialVideos videos={demoUrl?.results}/>}
       <Recommendation mediatype={mediatype} id={id}/>
       <Similar mediatype={mediatype} id={id}/>
     </div>

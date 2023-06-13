@@ -6,14 +6,20 @@ import { Link, useNavigate } from "react-router-dom";
 import Account from "../pages/Account";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import logo from "../assets/stream-beat logo.png";
+import { fetchBackendData } from "../utils/backendApi";
+import secLogo from "../assets/avatar.png";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { setNav } from "../state/navigationSlice";
 
-const TopBar = ({setToken}) => {
+const TopBar = ({ setToken }) => {
   const dispatch = useDispatch();
-  const { app } = useSelector((state) => state);
+  const { app,navigation } = useSelector((state) => state);
   const navigate = useNavigate();
 
   const [bgColor, setBgColor] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [userData, setuserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     navigate(`./${app.current}/home`);
@@ -25,8 +31,24 @@ const TopBar = ({setToken}) => {
     // eslint-disable-next-line
   }, [app]);
 
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   const handleAppState = (newState) => {
+    dispatch(setNav(newState==='movie'?1:6))
     dispatch(updateAppState({ newState }));
+  };
+
+  const getUserData = async () => {
+    setLoading(true);
+    try {
+      let response = await fetchBackendData("GET", "/user/user");
+      setuserData(response);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
   };
 
   const handleStyle = () => {
@@ -37,10 +59,6 @@ const TopBar = ({setToken}) => {
     }
   };
 
-  // const handleScroll=()=>{
-
-  // }
-
   useEffect(() => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line
@@ -50,12 +68,15 @@ const TopBar = ({setToken}) => {
     <div
       className={`w-full h-[50px] ${
         bgColor ? "bg-[rgba(0,0,0,0.9)]" : ""
-      } text-white flex items-center justify-between fixed top-0 z-20 left-0 px-4 transition-colors duration-300`}
+      } text-white flex items-center justify-between fixed top-0 z-20 left-0 px-4 transition-colors duration-300 `}
     >
-      <Link to="/" className="sm:hidden">
-        <LazyLoadImage effect="blur" src={logo} className="w-[70px] absolute left-0 top-1" />
+      <Link
+        to="/"
+        className="sm:hidden grid place-items-center translate-x-[-10px] "
+      >
+        <LazyLoadImage effect="blur" src={logo} className="w-[70px] " />
       </Link>
-      <Link t0='/' className="font-semibold hidden sm:block">
+      <Link t0="/" className="font-semibold hidden sm:block  ">
         <span className="text-[red] md:text-3xl text-xl">Stream</span>
         <span className="text-[green] md:text-3xl text-xl">Beat</span>
       </Link>
@@ -65,15 +86,25 @@ const TopBar = ({setToken}) => {
           state={app.current}
           child={["movie", "music"]}
         />
-        <button onClick={() => setMenu(true)}>
-          <LazyLoadImage
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThTFHNvudF14DrJhIbjvNi8KhuKPaOrCivYw&usqp=CAU"
-            alt="user"
-            className="h-[40px] w-[40px] rounded-full"
-          />
-        </button>
+        {loading ? (
+          <SkeletonTheme baseColor="#202020" highlightColor="#444" >
+              <Skeleton height="40px" width="40px"  borderRadius={'100%'} />
+          </SkeletonTheme>
+        ) : (
+          <button onClick={() => setMenu(true)}>
+            <LazyLoadImage
+              src={
+                userData.image ? `data:image/png;base64,${userData.image} ` : secLogo
+              }
+              alt="user"
+              className="h-[40px] w-[40px] rounded-full"
+            />
+          </button>
+        )}
       </div>
-      {menu && <Account setMenu={setMenu} setToken={setToken} />}
+      {menu && (
+        <Account setMenu={setMenu} setToken={setToken} userData={userData} />
+      )}
     </div>
   );
 };

@@ -3,11 +3,13 @@ import {  NavLink,  } from "react-router-dom";
 import { HiHome } from "react-icons/hi";
 import { MdMovie,MdWatchLater } from "react-icons/md";
 import { BiSearchAlt } from "react-icons/bi";
-import { RiPlayListFill } from "react-icons/ri";
+import { IoTvSharp } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { setNav } from "../../state/navigationSlice";
 
 const Sidebar = () => {
-
-
+  const {navigation}=useSelector(state=>state)
+  const dispatch=useDispatch()
 
   return (
     <div className="md:w-20 w-screen fixed bottom-0 z-10 flex items-center justify-center md:h-screen overflow-hidden md:pb-3">
@@ -16,9 +18,10 @@ const Sidebar = () => {
           <NavLink
             to="/movie/home"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+            style={() =>
+              navigation.current===1 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(1))}
             title="Home"
           >
             <HiHome />
@@ -28,9 +31,10 @@ const Sidebar = () => {
           <NavLink
             to="/movie/explore/movie"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+            style={() =>
+              navigation.current===2 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(2))}
             title="Category"
           >
             <MdMovie />
@@ -40,21 +44,23 @@ const Sidebar = () => {
           <NavLink
             to="/movie/explore/tv"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+            style={() =>
+              navigation.current===3 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(3))}
             title="Playlist"
           >
-            <RiPlayListFill />
+            <IoTvSharp />
           </NavLink>
         </li>
         <li>
           <NavLink
             to="/movie/search"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+            style={() =>
+              navigation.current===4 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(4))}
             title="Search"
           >
             <BiSearchAlt />
@@ -64,9 +70,10 @@ const Sidebar = () => {
           <NavLink
             to="/movie/library"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+            style={() =>
+              navigation.current===5 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(5))}
             title="Library"
           >
             <MdWatchLater />

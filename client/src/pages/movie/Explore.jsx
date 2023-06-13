@@ -132,7 +132,7 @@ const onChange = (selectedItems, action) => {
         hasMore={true}
         loader={<MovieCardLoading/>}
         // loader={<p>loading....</p>}
-        className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-1 gap-y-5 mt-10 hide-scroll "
+        className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2  gap-3 mt-10 hide-scroll "
         >
         {data?.results?.map((item) => (
           <MovieCard key={item.id} data={item} mediaType={mediatype} />

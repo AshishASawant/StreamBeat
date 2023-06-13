@@ -34,16 +34,16 @@ export const fetchBackendData = async (reqType, url, body) => {
     }
 
     // Display success toast
-    toast.success(response.data.message || "success", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+    // toast.success(response.data.message || "success", {
+    //   position: "top-right",
+    //   autoClose: 1000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "dark",
+    // });
 
     return response.data;
   } catch (err) {

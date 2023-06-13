@@ -31,7 +31,7 @@ const Musicstate = (props) => {
         setCurrentIndex(prevIndex || 0);
       } else {
         apiClient
-          .get(`browse/categories/${data.categories.items[0].id}/playlists`)
+          .get(`browse/categories/${data.categories.items[1].id}/playlists`)
           .then(({ data }) => {
             setChangeTrack(data.playlists.items[0].id);
           });

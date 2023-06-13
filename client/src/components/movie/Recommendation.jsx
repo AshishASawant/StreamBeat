@@ -20,7 +20,7 @@ const Recommendation = ({ mediatype, id }) => {
     });
   }, [id, mediatype]);
 
-  return (
+   return (recommendation?.results.length!==0?
     <div className="px-2 md:pl-movie-left text-text-primary mt-12">
       <h1 className="text-3xl my-5">Recommendation</h1>
       <div>
@@ -36,8 +36,8 @@ const Recommendation = ({ mediatype, id }) => {
             ))}
         </Swiper>
       </div>
-    </div>
-  );
+    </div>:''
+  )
 };
 
 export default Recommendation;

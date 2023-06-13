@@ -6,6 +6,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { RiPlayListFill, RiLogoutCircleRLine } from "react-icons/ri";
 import musicContext from "../../state/musicContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setNav } from "../../state/navigationSlice";
 
 const SideBar = ({ setToken }) => {
   const navigate=useNavigate()
@@ -13,6 +15,8 @@ const SideBar = ({ setToken }) => {
   let context = useContext(musicContext);
   let { audio } = context;
 
+  const {navigation}=useSelector(state=>state)
+  const dispatch=useDispatch()
 
   return (
     <div className="md:w-20 w-screen flex  items-center  h-full md:ml-3 overflow-hidden md:pb-3">
@@ -21,9 +25,10 @@ const SideBar = ({ setToken }) => {
           <NavLink
             to="/music/home"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+              style={() =>
+              navigation.current===6 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(6))}
             title="Home"
           >
             <HiHome />
@@ -33,9 +38,10 @@ const SideBar = ({ setToken }) => {
           <NavLink
             to="/music/category"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+              style={() =>
+              navigation.current===7 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(7))}
             title="Category"
           >
             <TbCategory />
@@ -45,9 +51,10 @@ const SideBar = ({ setToken }) => {
           <NavLink
             to="/music/playlist"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+              style={() =>
+              navigation.current===8 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(8))}
             title="Playlist"
           >
             <RiPlayListFill />
@@ -57,9 +64,10 @@ const SideBar = ({ setToken }) => {
           <NavLink
             to="/music/search"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+              style={() =>
+              navigation.current===9 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(9))}
             title="Search"
           >
             <BiSearchAlt />
@@ -69,15 +77,16 @@ const SideBar = ({ setToken }) => {
           <NavLink
             to="/music/library"
             className="text-bg-dull text-[1.7rem] transition-colors duration-500"
-            style={({ isActive }) =>
-              isActive ? { color: "white" } : { color: "grey" }
+              style={() =>
+              navigation.current===10 ? { color: "white" } : { color: "grey" }
             }
+            onClick={()=>dispatch(setNav(10))}
             title="Library"
           >
             <MdOutlineLibraryMusic />
           </NavLink>
         </li>
-        <button
+        {/* <button
           onClick={(e) => {
             e.preventDefault();
             audio.pause();
@@ -87,10 +96,10 @@ const SideBar = ({ setToken }) => {
             navigate('/music/login')
           }}
           title="Log out"
-          className="md:static fixed top-3 right-3"
+          className="md:block hidden"
         >
           <RiLogoutCircleRLine className="text-red-800 text-[1.7rem] transition-colors duration-500" />
-        </button>
+        </button> */}
       </ul>
     </div>
   );

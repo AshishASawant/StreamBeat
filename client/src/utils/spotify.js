@@ -4,7 +4,13 @@ const client_id = process.env.REACT_APP_CLIENT_ID2; // client id ---development 
 const client_secret='90d37eac0701466089029e223d48e307'
 const redirect_uri = process.env.REACT_APP_REDIRECT_URL; //  redirect uri ---development app
 const authEndpoint = 'https://accounts.spotify.com/authorize?';
-const scopes = ['user-library-read', 'playlist-read-private'];
+const scopes = ['user-library-read', 'playlist-read-private','streaming',
+'user-read-email',
+'user-read-private',
+'user-library-read',
+'user-library-modify',
+'user-read-playback-state',
+'user-modify-playback-state'];
 const tokenEndpoint = 'https://accounts.spotify.com/api/token';
 
 export const loginEndpoint = `${authEndpoint}client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;

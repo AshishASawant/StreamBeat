@@ -2432,8 +2432,8 @@ const Search = () => {
   };
 
   return (
-    <div className="w-full overflow-y-scroll hide-scroll relative text-text-primary py-4">
-      <div className="flex items-center flex-col sm:flex-row justify-between gap-2 pb-3 sticky  top-0 left-0 z-10 w-screen md:w-full bg-bg-secondary px-2">
+    <div className="w-full overflow-y-scroll hide-scroll relative text-text-primary">
+      <div className="flex items-center flex-col sm:flex-row justify-between gap-2 pb-3 sticky top-0 left-0 z-10 w-screen md:w-full bg-bg-secondary px-2 py-2">
         <input
           type="text"
           placeholder="Search"
@@ -2460,7 +2460,7 @@ const Search = () => {
         </div>
       </div>
       {currentSearchType === "song" ? (
-        <div className="w-full grid gap-3 px-2 md:px-0">
+        <div className="w-full grid gap-3 px-2 md:px-0 py-4">
           <h1 className="text-2xl font-semibold text-text-primary">Songs</h1>
           <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 px-2 md:px-0 lg:gap-5 gap-2">
             {(sSong.length ? sSong : demosSong).map((item) => {
