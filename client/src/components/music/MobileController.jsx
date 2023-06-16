@@ -71,8 +71,8 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
   return (
     <div
       className={`bg-bg-primary xs:hidden ${
-        isMobileController ? "translate-y-[0vh]" : "translate-y-[100vh]"
-      } w-full h-full mb-4 duration-500 rounded-md mr-3 text-text-primary overflow-hidden ease-in-out overflow-y-scroll hide-scroll  pb-4 fixed top-0 left-0 z-30`}
+        isMobileController ? "translate-y-[0vh] block" : "translate-y-[100vh] hidden"
+      } w-full h-full mb-4 duration-500 rounded-md mr-3 text-text-primary overflow-hidden ease-in-out  overflow-y-scroll hide-scroll  pb-4 fixed top-0 left-0 z-30`}
       id="mobileC"
     >
       <div

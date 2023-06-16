@@ -42,7 +42,7 @@ const MusicLogin = ({ setToken }) => {
             Use the following credentials for login
           </p>
           <p className="">Username : tseries@yopmail.com</p>
-          <p className="">Password : Spotify Clone</p>
+          <p className="">Password : SpotifyClone</p>
         </div>
         <a href={loginEndpoint} className="bg-green-600 px-4 py-2 rounded-full">
           <button className="text-center w-full">LOG IN</button>
