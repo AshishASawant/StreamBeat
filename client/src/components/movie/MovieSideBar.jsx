@@ -27,7 +27,7 @@ const Sidebar = () => {
   let handleDisplay = () => {
 
     if ((window.innerHeight < displayHeight - displayHeight * (1 / 5)) && initialWidth<768) {
-      // setIsShow(false)
+      setIsShow(false)
  
     } else {
       setIsShow(true)
