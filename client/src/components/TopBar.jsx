@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Toggle from "./Toggle";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAppState } from "../state/appSlice";
+import { updateAppState, updateUserName } from "../state/appSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Account from "../pages/Account";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -13,13 +13,14 @@ import { setNav } from "../state/navigationSlice";
 
 const TopBar = ({ setToken }) => {
   const dispatch = useDispatch();
-  const { app,navigation } = useSelector((state) => state);
+  const { app} = useSelector((state) => state);
   const navigate = useNavigate();
 
   const [bgColor, setBgColor] = useState(false);
   const [menu, setMenu] = useState(false);
   const [userData, setuserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userImage, setUserImage] = useState(null);
 
   useEffect(() => {
     navigate(`./${app.current}/home`);
@@ -45,6 +46,8 @@ const TopBar = ({ setToken }) => {
     try {
       let response = await fetchBackendData("GET", "/user/user");
       setuserData(response);
+      dispatch(updateUserName(response.name))
+      setUserImage(response.image)
     } catch (error) {
       console.error(error);
     }
@@ -94,7 +97,7 @@ const TopBar = ({ setToken }) => {
           <button onClick={() => setMenu(true)}>
             <LazyLoadImage
               src={
-                userData.image ? `data:image/png;base64,${userData.image} ` : secLogo
+                userImage ? `data:image/png;base64,${userImage} ` : secLogo
               }
               alt="user"
               className="h-[40px] w-[40px] rounded-full"
@@ -103,7 +106,7 @@ const TopBar = ({ setToken }) => {
         )}
       </div>
       {menu && (
-        <Account setMenu={setMenu} setToken={setToken} userData={userData} />
+        <Account setMenu={setMenu} setToken={setToken} userData={userData} userImage={userImage} setUserImage={setUserImage} />
       )}
     </div>
   );

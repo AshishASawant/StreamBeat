@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FaAngleDown } from "react-icons/fa";
 import { FaPause } from "react-icons/fa";
+import { MdLyrics } from "react-icons/md";
 import {
   IoPlaySkipBack,
   IoPlaySkipForward,
@@ -12,6 +13,7 @@ import { RxShuffle } from "react-icons/rx";
 import musicContext from "../../state/musicContext";
 import { useEffect } from "react";
 import Marquee from "react-fast-marquee";
+import Lyrics from "./Lyrics";
 
 const MobileController = ({ isMobileController, setIsMobileController }) => {
   const context = useContext(musicContext);
@@ -33,8 +35,8 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
     setRepeat,
   } = context;
 
-  const [show, setShow] = useState(false)
-
+  const [show, setShow] = useState(false);
+  const [isLyrics, setIsLyrics] = useState(false);
 
   const handleOnChange = (index) => {
     setCurrentTrack(tracks[index].track);
@@ -42,22 +44,21 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
   };
 
   useEffect(() => {
-    let comp=document.getElementById('mobileC')
-    comp.addEventListener('scroll',()=>enablebg(comp.scrollTop))
+    let comp = document.getElementById("mobileC");
+    comp.addEventListener("scroll", () => enablebg(comp.scrollTop));
     return () => {
-      comp.removeEventListener('scroll',enablebg)
-    }
+      comp.removeEventListener("scroll", enablebg);
+    };
     // eslint-disable-next-line
-  },
-   [])
-  
-  const enablebg=(height)=>{
-    if(height>(window.innerHeight-(window.innerHeight/1.9))){
-        setShow(true)
-    }else{
-        setShow(false)
+  }, []);
+
+  const enablebg = (height) => {
+    if (height > window.innerHeight - window.innerHeight / 1.9) {
+      setShow(true);
+    } else {
+      setShow(false);
     }
-  }
+  };
 
   const addZero = (n) => {
     return n > 9 ? "" + n : "0" + n;
@@ -84,12 +85,22 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
           backgroundSize: "100% 100%",
         }}
       ></div>
-      <div className={`w-full p-2 flex items-center sticky top-0 z-30 ${show?'bg-bg-primary':''}`}>
+      <div
+        className={`w-full p-2 flex items-center sticky top-0 z-30 ${
+          show ? "bg-bg-primary" : ""
+        }`}
+      >
         <FaAngleDown
           className="text-[2.5rem] font-extrabold grid place-items-center p-1  rounded-full "
           onClick={() => setIsMobileController(false)}
         />
-        <Marquee><p className="font-bold  w-[100vw] text"> {tracks[currentIndex]?.track?.name}-BY-{tracks[currentIndex]?.track?.artists[0]?.name} </p></Marquee>
+        <Marquee>
+          <p className="font-bold line-clamp-1 mr-[80vw] text">
+            {" "}
+            {tracks[currentIndex]?.track?.name}-BY-
+            {tracks[currentIndex]?.track?.artists[0]?.name}{" "}
+          </p>
+        </Marquee>
       </div>
       <div className="flex flex-col h-[90vh] items-center justify-between  pb-5">
         <div className="flex flex-1 items-center px-2 ">
@@ -103,14 +114,14 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
           />
         </div>
         <div className="flex flex-col w-full px-2 items-center justify-evenly py-2 z-10 gap-7 ">
-        <div className="self-start">
-          <p className="capitalize line-clamp-1 text-2xl font-bold">
-            {tracks[currentIndex]?.track?.name}
-          </p>
-          <p className="capitalize text-sm">
-            {tracks[currentIndex]?.track?.artists[0]?.name}
-          </p>
-        </div>
+          <div className="self-start">
+            <p className="capitalize line-clamp-1 text-2xl font-bold">
+              {tracks[currentIndex]?.track?.name}
+            </p>
+            <p className="capitalize text-sm">
+              {tracks[currentIndex]?.track?.artists[0]?.name}
+            </p>
+          </div>
           <div className="flex gap-2 text-sm w-full items-center justify-center">
             <p className="text-sm ">
               00:{addZero(Math.round(audio.currentTime))}
@@ -172,40 +183,55 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
           </div>
         </div>
       </div>
-      <div className="grid mt-4">
-        <h1 className="text-2xl font-semibold sticky top-14 bg-bg-primary py-2 px-4">
-          Queue
-        </h1>
-        <div className="flex flex-col flex-1">
-          {tracks?.map((item, i) => {
-            return (
-              <div
-                className="flex py-2 items-center gap-2 cursor-pointer hover:bg-slate-900 px-3 rounded-md mx-1 "
-                key={i}
-                onClick={() => handleOnChange(i)}
-                style={
-                  item?.track?.name === tracks[currentIndex]?.track?.name
-                    ? { color: "green" }
-                    : {}
-                }
-              >
-                <img
-                  src={item?.track?.album?.images[0]?.url}
-                  alt="album"
-                  className="aspect-square w-12 rounded-md"
-                />
-                <div>
-                  <p className="queue-song capitalize text-sm line-clamp-1">
-                    {item?.track?.name}
-                  </p>
-                  <p className="queue-time text-xs line-clamp-1">
-                    By {item?.track?.artists[0]?.name}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+      <div className="grid mt-4 bg-bg-primary">
+        <div className=" font-semibold sticky  bg-bg-primary top-14 flex justify-between">
+          <button
+            className={`text-2xl  py-2 px-4 ${!isLyrics?'text-green-600':''}`}
+            onClick={() => setIsLyrics(false)}
+          >
+            Queue
+          </button>
+          <button
+            className={`text-2xl py-2 px-4 ${isLyrics?'text-green-600':''}`}
+            onClick={() => setIsLyrics(true)}
+          >
+            <MdLyrics />
+          </button>
         </div>
+        {isLyrics ? (
+          <Lyrics />
+        ) : (
+          <div className="flex flex-col flex-1">
+            {tracks?.map((item, i) => {
+              return (
+                <div
+                  className="flex py-2 items-center gap-2 cursor-pointer hover:bg-slate-900 px-3 rounded-md mx-1 "
+                  key={i}
+                  onClick={() => handleOnChange(i)}
+                  style={
+                    item?.track?.name === tracks[currentIndex]?.track?.name
+                      ? { color: "green" }
+                      : {}
+                  }
+                >
+                  <img
+                    src={item?.track?.album?.images[0]?.url}
+                    alt="album"
+                    className="aspect-square w-12 rounded-md"
+                  />
+                  <div>
+                    <p className="queue-song capitalize text-sm line-clamp-1">
+                      {item?.track?.name}
+                    </p>
+                    <p className="queue-time text-xs line-clamp-1">
+                      By {item?.track?.artists[0]?.name}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -9,11 +9,13 @@ import { useDispatch } from "react-redux";
 import { updateLoginState } from "../state/loginSlice";
 import musicContext from "../state/musicContext";
 import { fetchBackendData } from "../utils/backendApi";
+import { setProgress } from '../state/loadingSlice'
+
 import logo from "../assets/avatar.png";
-const Account = ({ setMenu, setToken, userData }) => {
+import { updateUserName } from "../state/appSlice";
+const Account = ({ setMenu, setToken, userData,setUserImage, userImage }) => {
   let context = useContext(musicContext);
   let { audio } = context;
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [name, setName] = useState(userData?.name);
@@ -23,10 +25,10 @@ const Account = ({ setMenu, setToken, userData }) => {
     email: userData?.email,
   });
 
-  const [userImage, setUserImage] = useState(userData?.image);
   const imageRef = useRef();
 
   const handleImageUpload = async (newImage) => {
+    dispatch(setProgress(50))
     try {
       const formData = new FormData();
       formData.append("image", newImage);
@@ -43,6 +45,7 @@ const Account = ({ setMenu, setToken, userData }) => {
     } catch (error) {
       console.error("Image upload error:", error);
     }
+    dispatch(setProgress(100))
   };
 
   const handleSubmit = async (e) => {
@@ -52,6 +55,7 @@ const Account = ({ setMenu, setToken, userData }) => {
       let body = { name, email };
       fetchBackendData("PUT", "/user/updateProfile", body).then(() => {
         setPrevValue({ name, email });
+        dispatch(updateUserName(name))
       });
     } catch (error) {
       console.error(error);
@@ -114,11 +118,10 @@ const Account = ({ setMenu, setToken, userData }) => {
             </div>
             <button
               type="submit"
-              className={`px-4 py-2 ${
-                prevValue.name !== name || prevValue.email !== email
-                  ? "bg-[red]"
-                  : "bg-red-900"
-              } rounded-md`}
+              className={`px-4 py-2 bg-[red] 
+              disabled:bg-red-900
+               rounded-md`}
+               disabled={ (prevValue.name !== name || prevValue.email !== email)?false:true}
             >
               Update Profile
             </button>

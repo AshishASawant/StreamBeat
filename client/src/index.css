@@ -37,6 +37,10 @@ body::-webkit-scrollbar {
 .hide-scroll::-webkit-scrollbar {
   width: 0;
 }
+.hide{
+  display: none !important;
+  visibility: hidden !important;
+}
 
 .swiper-pagination {
   transform: translateY(-30px) !important;

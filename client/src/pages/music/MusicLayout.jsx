@@ -9,7 +9,7 @@ const MusicLayout = ({ setToken }) => {
   const [isMobileController, setIsMobileController] = useState(false)
   return (
     <section className="flex flex-col flex-1 music-height overflow-hidden">
-      <div className="w-full flex overflow-y-scroll outlet-height gap-5 hide-scroll music-scroll-nav">
+      <div className="w-full flex overflow-y-scroll outlet-height gap-5 hide-scroll music-scroll-nav" id="muLay">
         <div className="hidden md:block">
         <MusicSideBar setToken={setToken} />
         </div>

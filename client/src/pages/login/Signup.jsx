@@ -1,22 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchBackendData } from "../../utils/backendApi";
 import { useDispatch } from "react-redux";
 import { setProgress } from "../../state/loadingSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userName, setUserName] = useState("");
   const dispatch = useDispatch();
+  const navigate=useNavigate()
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     dispatch(setProgress(40));
     let body = { name: userName, email: userEmail, password: userPassword };
     let res = await fetchBackendData("POST", "/user/register", body);
-    if(res){
+    if(res.status==='true'){
+    toast.success(res.message, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
       dispatch(setProgress(100));
+      navigate('/login')
+    }else{
+      dispatch(setProgress(100))
     }
   };
   return (

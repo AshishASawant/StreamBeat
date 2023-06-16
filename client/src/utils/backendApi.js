@@ -2,7 +2,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// const BASE_URL = "https://stream-beat-api.vercel.app/api";
 const BASE_URL =process.env.REACT_APP_BASE_URL;
 
 export const fetchBackendData = async (reqType, url, body) => {
@@ -32,18 +31,6 @@ export const fetchBackendData = async (reqType, url, body) => {
         data: body,
       });
     }
-
-    // Display success toast
-    // toast.success(response.data.message || "success", {
-    //   position: "top-right",
-    //   autoClose: 1000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "dark",
-    // });
 
     return response.data;
   } catch (err) {

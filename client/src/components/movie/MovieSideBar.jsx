@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {  NavLink,  } from "react-router-dom";
 import { HiHome } from "react-icons/hi";
 import { MdMovie,MdWatchLater } from "react-icons/md";
@@ -10,10 +10,32 @@ import { setNav } from "../../state/navigationSlice";
 const Sidebar = () => {
   const {navigation}=useSelector(state=>state)
   const dispatch=useDispatch()
+  const [isShow, setIsShow] = useState(true)
+  
+  let displayHeight = window.innerHeight;
+  let initialWidth=window.innerWidth
+
+  useEffect(() => {
+    window.addEventListener("resize", handleDisplay);
+
+    return()=>{
+      window.removeEventListener('resize',handleDisplay)
+    }
+  }, []);
+
+  let handleDisplay = () => {
+
+    if ((window.innerHeight < displayHeight - displayHeight * (1 / 5))&& initialWidth<768) {
+      setIsShow(false)
+ 
+    } else {
+      setIsShow(true)
+    }
+  };
 
   return (
-    <div className="md:w-20 w-screen fixed bottom-0 z-10 flex items-center justify-center md:h-screen overflow-hidden md:pb-3">
-      <ul className="flex h-full md:flex-col items-center gap-10 w-full md:my-6 bg-bg-primary md:rounded-md md:py-6 py-3 overflow-hidden justify-evenly max-h-[75%] px-3 md:px-0">
+    <div className={`md:w-20 w-screen fixed bottom-0 z-10  items-center justify-center ${isShow?'block':'hidden'} md:h-screen overflow-hidden md:pb-3 `} id='movieSideBar'>
+      <ul className="flex h-full md:flex-col items-center gap-10 w-full md:my-6 bg-bg-primary md:rounded-md md:py-6 py-3 overflow-hidden justify-evenly max-h-[75%] px-3 md:px-0" id='movi2'>
         <li>
           <NavLink
             to="/movie/home"

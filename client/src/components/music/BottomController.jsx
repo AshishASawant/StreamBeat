@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useState,useEffect } from "react";
 import musicContext from "../../state/musicContext";
 import { FaPause } from "react-icons/fa";
 import { GoUnmute, GoMute } from "react-icons/go";
@@ -33,6 +33,27 @@ const BottomController = ({ setIsMobileController }) => {
     return n > 9 ? "" + n : "0" + n;
   };
 
+  const [isShow, setIsShow] = useState(true)
+  
+  let displayHeight = window.innerHeight;
+
+  useEffect(() => {
+    window.addEventListener("resize", handleDisplay);
+
+    return()=>{
+      window.removeEventListener('resize',handleDisplay)
+    }
+  }, []);
+
+  let handleDisplay = () => {
+
+    if ((window.innerHeight < displayHeight - displayHeight * (1 / 5))&& window.innerWidth<768) {
+      setIsShow(false)
+ 
+    } else {
+      setIsShow(true)
+    }
+  };
   const changeCtime = () => {
     audio.currentTime = document.getElementsByName("seekbar")[0].value;
   };
@@ -45,7 +66,7 @@ const BottomController = ({ setIsMobileController }) => {
   };
 
   return (
-      <div className="flex md:bg-bg-primary bg-slate-900 text-white md:h-24 h-16 items-center justify-between md:px-7 px-2 overflow-hidden gap-2">
+      <div className={`flex md:bg-bg-primary bg-slate-900 text-white md:h-24 h-16 items-center justify-between md:px-7 px-2 overflow-hidden gap-2 ${isShow?'block':'hidden'}`}>
         <div
           className="flex  items-center gap-2 "
           onClick={handleMobileControll}
@@ -131,14 +152,14 @@ const BottomController = ({ setIsMobileController }) => {
         <div className="flex h-full w-20 xs:hidden justify-center items-center">
           {isPlaying ? (
             <FaPause
-              className="text-[3rem] p-2 cursor-pointer rounded-full bg-green-600 text-black  aspect-square"
+              className="text-[2.3rem] p-2 cursor-pointer rounded-full bg-green-600 text-black  aspect-square"
               onClick={() => {
                 setIsPlaying(!isPlaying);
               }}
             />
           ) : (
             <IoPlay
-              className="text-[3rem] p-2 cursor-pointer rounded-full bg-green-600 text-black aspect-square"
+              className="text-[2.3rem] p-2 cursor-pointer rounded-full bg-green-600 text-black aspect-square"
               onClick={() => {
                 setInitialLoad(false);
                 setIsPlaying(!isPlaying);

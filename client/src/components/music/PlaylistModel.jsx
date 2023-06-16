@@ -26,8 +26,7 @@ const PlaylistModel = ({
       const body = { name: newPlaylistName, type };
       setCreateNew(false);
       setNewPlaylistName("");
-      fetchBackendData("POST", url, body);
-      getPlaylist();
+      fetchBackendData("POST", url, body).then(() => getPlaylist());
       // Handle the response as needed
     } catch (error) {
       console.error(error);

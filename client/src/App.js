@@ -12,7 +12,7 @@ import MusicLogin from "./components/music/MusicLogin";
 import MovieLayout from "./pages/movie/MovieLayout";
 import MovieHome from "./pages/movie/MovieHome";
 import MovieSearch from "./pages/movie/MovieSearch";
-import MovieLibrary  from "./pages/movie/MovieLibrary";
+import MovieLibrary from "./pages/movie/MovieLibrary";
 import { useSelector } from "react-redux";
 import MovieDetails from "./pages/movie/MovieDetails";
 import Explore from "./pages/movie/Explore";
@@ -30,17 +30,7 @@ const App = () => {
   const { current } = useSelector((state) => state.app);
   const { login } = useSelector((state) => state);
   const [token, setToken] = useState(null);
-  // // const [login.current, setlogin.current] = useState(localStorage.getItem('authToken'));
-
-  // // useEffect(()=>{
-  // //   if(token && current==='music'){
-  // //     navigate('/music/home')
-  // //   }
-  // //   // eslint-disable-next-line
-  // // },[token])
-
-  // const location = useLocation();
-
+  
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
@@ -64,7 +54,7 @@ const App = () => {
         pauseOnHover
         theme="dark"
       />
-      <TopLoading/>
+      <TopLoading />
       {login.current && <TopBar setToken={setToken} />}
       {login.current ? (
         <Routes>
@@ -100,7 +90,11 @@ const App = () => {
                 <Route exact path="/music/home" element={<MusicHome />} />
                 <Route exact path="/music/category" element={<Categorie />} />
                 <Route exact path="/music/playlist" element={<Playlist />} />
-                <Route exact path="/music/playlist/:id" element={<DetailedPlaylist/>} />
+                <Route
+                  exact
+                  path="/music/playlist/:id"
+                  element={<DetailedPlaylist />}
+                />
                 <Route exact path="/music/search" element={<Search />} />
                 <Route exact path="/music/library" element={<Library />} />
                 <Route
@@ -126,12 +120,12 @@ const App = () => {
                   element={<MovieDetails />}
                 />
                 <Route exact path="/movie/search" element={<MovieSearch />} />
-                <Route exact path="/movie/person/:id" element={<PersonDetails/>} />
                 <Route
                   exact
-                  path="/movie/library"
-                  element={<MovieLibrary />}
+                  path="/movie/person/:id"
+                  element={<PersonDetails />}
                 />
+                <Route exact path="/movie/library" element={<MovieLibrary />} />
               </Route>
             </>
           )}

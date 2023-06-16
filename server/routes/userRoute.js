@@ -140,8 +140,11 @@ router.get("/user", userAuth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Convert the image data to base64
-    const imageBase64 = user.image.toString('base64');
+    let imageBase64 = null;
+    if(user.image){
+      // Convert the image data to base64
+      imageBase64 = user.image.toString('base64');
+    }
 
     // Create a new user object with limited properties
     const userData = {

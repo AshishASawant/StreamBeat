@@ -4,6 +4,8 @@ import musicContext from "../../state/musicContext";
 import Displaycard from "../../components/music/displaycard/Displaycard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import swiperConfig from "../../utils/swiperConfig";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const MusicHome = () => {
   const context = useContext(musicContext);
@@ -16,27 +18,63 @@ const MusicHome = () => {
     setChangeTrack,
   } = context;
 
+  const {app}=useSelector(state=>state)
   const [similar, setSimilar] = useState([]);
+  const navigate = useNavigate();
 
-  const getAtist = (id) => {
+  const getArtist = (item,link) => {
+    console.log(item)
     let newArr = [];
-    apiClient.get(`artists/${id}/top-tracks?market=ES`).then(({ data }) => {
-      data.tracks.forEach((element) => {
-        newArr.push({ track: element });
-        setTracks(newArr);
-      });
+    apiClient.get(`artists/${item.id}/top-tracks?market=ES`).then(({ data }) => {
+      let musicPlaylist=[]
+      for (let i = 0; i < data.tracks.length; i++) {
+        musicPlaylist.push(data.tracks[i].id)
+      }
+      const state = {
+        name: item.name,
+        description: "Similar Artist",
+        images: [{ url: item.images[0].url }],
+        tracks: { total: data.tracks.length },
+        allTrackData: { musicPlaylist},
+      };
+      if (link) {
+        navigate(`../playlist/${item.id}`, { state });
+      } 
+      else{
+        data.tracks.forEach((element) => {
+          newArr.push({ track: element });
+          setTracks(newArr);
+        });
+      }
     });
   };
 
-  const getAlbum = (id, url) => {
+  const getAlbum = (item, url, link) => {
     let newArr = [];
-    apiClient.get(`albums/${id}/tracks`).then(({ data }) => {
-      data.items.forEach((element) => {
-        newArr.push({
-          track: { ...element, album: { ...element, images: [{ url }] } },
+    apiClient.get(`albums/${item.id}/tracks`).then(({ data }) => {
+      let musicPlaylist=[]
+      for (let i = 0; i < data.items.length; i++) {
+        musicPlaylist.push(data.items[i].id)
+        // console.log(data.items[i])
+        
+      }
+      const state = {
+        name: item.name,
+        description: "New Released",
+        images: [{ url: `${url}` }],
+        tracks: { total: data.items.length },
+        allTrackData: { musicPlaylist},
+      };
+      if (link) {
+        navigate(`../playlist/${item.id}`, { state });
+      } else {
+        data.items.forEach((element) => {
+          newArr.push({
+            track: { ...element, album: { ...element, images: [{ url }] } },
+          });
+          setTracks(newArr);
         });
-        setTracks(newArr);
-      });
+      }
     });
   };
 
@@ -51,7 +89,7 @@ const MusicHome = () => {
       })
       .catch((err) => console.error(err));
     // eslint-disable-next-line
-  }, [currentIndex,tracks]);
+  }, [currentIndex, tracks]);
 
   const greet = () => {
     let today = new Date();
@@ -67,8 +105,8 @@ const MusicHome = () => {
   };
 
   return (
-    <div className="h-full w-full pt-5 sm:px-0 px-2 flex flex-col gap-4 text-text-primary overflow-x-hidden hide-scroll">
-      <h1 className=" text-3xl font-extrabold">Good {greet()} Ashish</h1>
+    <div className="h-full w-full pt-5 md:px-0 px-2 flex flex-col gap-4 text-text-primary overflow-x-hidden hide-scroll">
+      <h1 className=" text-3xl font-extrabold">Good {greet()} {app.userName} </h1>
       <div className="w-full grid gap-3">
         <h1 className="text-2xl font-semibold">New Release</h1>
         <div className="flex md:gap-5 gap-2 overflow-x-scroll hide-scroll h-max">
@@ -82,7 +120,9 @@ const MusicHome = () => {
                     img={item?.images[0]?.url}
                     subtitle={item.total_tracks}
                     isMin={true}
-                    click={() => getAlbum(item.id, item.images[0]?.url)}
+                    click={() => getAlbum(item, item.images[0]?.url)}
+                    link={true}
+                    linkFunc={() => getAlbum(item, item.images[0]?.url, true)}
                   />
                 </SwiperSlide>
               );
@@ -100,10 +140,12 @@ const MusicHome = () => {
                   <Displaycard
                     id={item.id}
                     title={item.name}
+                    item={item}
                     img={item?.images[0]?.url}
                     subtitle={item.description}
                     click={() => setChangeTrack(item.id)}
                     isMin={true}
+                    link={true}
                   />
                 </SwiperSlide>
               );
@@ -124,7 +166,9 @@ const MusicHome = () => {
                     img={item?.images[0]?.url}
                     isMin={true}
                     subtitle={`Followers: ${item.followers.total}`}
-                    click={() => getAtist(item.id)}
+                    click={() => getArtist(item)}
+                    link={true}
+                    linkFunc={() => getArtist(item, true)}
                   />
                 </SwiperSlide>
               );
