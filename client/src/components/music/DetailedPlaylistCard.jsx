@@ -60,8 +60,8 @@ const DetailedPlaylistCard = ({ item, index,click,fav,presentPlaylist }) => {
   };
 
   return (shouldReturn?
-    <div className="w-full border-white h-[60px] mt-4 flex items-center gap-3 justify-between md:px-0 " onClick={()=>handleMobileClick(index)}>
-      <div className="flex gap-2 items-center ">
+    <div className="w-full border-white h-[60px] mt-4 flex items-center gap-3 justify-between md:px-0 ">
+      <div className="flex gap-2 items-center flex-1 " onClick={()=>handleMobileClick(index)}>
         <p className="h-full w-5 text-center hidden sm:block font-semibold">{index + 1}</p>
         <LazyLoadImage
           effect="blur"
