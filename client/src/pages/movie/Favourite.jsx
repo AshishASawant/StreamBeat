@@ -23,7 +23,7 @@ const Favourite = () => {
     <div className="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-x-1 gap-y-5 mt-10">
       {loading ? (
         <MovieCardLoading />
-      ) : (
+      ) : favouriteList.length !== 0 ? (
         favouriteList?.map((item) => (
           <GetDataMovieCard
             id={item?.itemId}
@@ -31,8 +31,9 @@ const Favourite = () => {
             key={item?._id}
           />
         ))
+      ) : (
+        favouriteList.length === 0 && <p>No Data Added To Favourite</p>
       )}
-          {favouriteList.length===0 && <p>No Data Added To Favourite</p>}
     </div>
   );
 };
