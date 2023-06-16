@@ -23,10 +23,11 @@ const Sidebar = () => {
     }
   }, []);
 
+  
   let handleDisplay = () => {
 
-    if ((window.innerHeight < displayHeight - displayHeight * (1 / 5))&& initialWidth<768) {
-      setIsShow(false)
+    if ((window.innerHeight < displayHeight - displayHeight * (1 / 5)) && initialWidth<768) {
+      // setIsShow(false)
  
     } else {
       setIsShow(true)
@@ -34,7 +35,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`md:w-20 w-screen fixed bottom-0 z-10  items-center justify-center ${isShow?'block':'hidden'} md:h-screen overflow-hidden md:pb-3 `} id='movieSideBar'>
+    <div className={`md:w-20 w-screen fixed bottom-0 z-10  items-center justify-center ${isShow?'flex':'hidden'} md:h-screen overflow-hidden md:pb-3 `} >
       <ul className="flex h-full md:flex-col items-center gap-10 w-full md:my-6 bg-bg-primary md:rounded-md md:py-6 py-3 overflow-hidden justify-evenly max-h-[75%] px-3 md:px-0" id='movi2'>
         <li>
           <NavLink
