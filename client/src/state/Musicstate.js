@@ -67,11 +67,7 @@ const Musicstate = (props) => {
         setTracks(data.items);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          alert(
-            "Your Access token has expired. Please signout and login again"
-          );
-        }
+        
         setLoading(false);
       });
     setLoading(false);

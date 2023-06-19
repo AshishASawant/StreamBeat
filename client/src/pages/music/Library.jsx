@@ -37,12 +37,8 @@ const Library = () => {
         setPlayList(data.items);
         setLoading(false);
       })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          alert(
-            "Your Access token has expired. Please signout and login again"
-          );
-        }
+      .catch(() => {
+        
         setLoading(false);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
