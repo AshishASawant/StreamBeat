@@ -60,7 +60,7 @@ const App = () => {
   }, [refreshToken, expiresIn]);
 
   const loginMusic = async () => {
-    let res = await axios.post("http://localhost:5000/api/musiclogin", {
+    let res = await axios.post(`${process.env.REACT_APP_BASE_URL}/musiclogin`, {
       code,
     });
     let { accessToken, refreshToken, expiresIn } = res.data;
@@ -74,7 +74,7 @@ const App = () => {
 
   const getNewToken = () => {
     axios
-      .post("http://localhost:5000/api/musicrefresh", {})
+      .post(`${process.env.REACT_APP_BASE_URL}/musicrefresh`, {})
       .then((res) => {
         let { access_token, expires_in } = res.data.tokens;
         localStorage.setItem("token", access_token);
