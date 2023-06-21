@@ -6,22 +6,22 @@ import logo from '../../assets/stream-beat logo.png'
 const MusicLogin = ({ setToken }) => {
   const location = useLocation();
 
-  useEffect(() => {
-    let token = localStorage.getItem("token");
-    let hash = location.hash;
-    if (hash) {
-      const newToken = hash.split("&")[0].split("=")[1];
-      localStorage.setItem("token", newToken);
-      setToken(newToken);
-      setClientToken(newToken);
-    }
-    if (token) {
-      setToken(token);
-      setClientToken(token);
-    }
+  // useEffect(() => {
+  //   let token = localStorage.getItem("token");
+  //   let hash = location.hash;
+  //   if (hash) {
+  //     const newToken = hash.split("&")[0].split("=")[1];
+  //     localStorage.setItem("token", newToken);
+  //     setToken(newToken);
+  //     setClientToken(newToken);
+  //   }
+  //   if (token) {
+  //     setToken(token);
+  //     setClientToken(token);
+  //   }
 
-    // eslint-disable-next-line
-  }, []);
+  //   // eslint-disable-next-line
+  // }, []);
   return (
     <div className="w-full flex items-center justify-center gap-5 flex-col text-text-primary h-[90%]">
       <div className=" grid gap-5">

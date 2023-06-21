@@ -25,20 +25,66 @@ import "react-toastify/dist/ReactToastify.css";
 import TopLoading from "./components/TopLoading";
 import DetailedPlaylist from "./pages/music/DetailedPlaylist";
 import PersonDetails from "./pages/movie/PersonDetails";
+import axios from "axios";
 
 const App = () => {
   const { current } = useSelector((state) => state.app);
   const { login } = useSelector((state) => state);
   const [token, setToken] = useState(null);
-  
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem("refreshtoken")
+  );
+  const [expiresIn, setExpiresIn] = useState();
+  const code = new URLSearchParams(window.location.search).get("code");
+
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
       setToken(token);
       setClientToken(token);
+    } else if (code) {
+      loginMusic();
+    } else {
+      getNewToken();
     }
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (!refreshToken || !expiresIn) return;
+    const interval = setInterval(() => {
+      getNewToken();
+    }, (expiresIn - 300) * 1000);
+
+    return () => clearInterval(interval);
+  }, [refreshToken, expiresIn]);
+
+  const loginMusic = async () => {
+    let res = await axios.post("http://localhost:5000/api/musiclogin", {
+      code,
+    });
+    let { accessToken, refreshToken, expiresIn } = res.data;
+    setRefreshToken(refreshToken);
+    setExpiresIn(expiresIn);
+    localStorage.setItem("refreshtoken", refreshToken);
+    localStorage.setItem("token", accessToken);
+    setToken(accessToken);
+    setClientToken(accessToken);
+  };
+
+  const getNewToken = () => {
+    axios
+      .post("http://localhost:5000/api/musicrefresh", {})
+      .then((res) => {
+        let { access_token, expires_in } = res.data.tokens;
+        localStorage.setItem("token", access_token);
+        setClientToken(access_token);
+        setExpiresIn(expires_in);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="h-full">
