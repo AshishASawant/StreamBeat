@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import apiClient from "../utils/spotify";
 import musicContext from "./musicContext";
-import { useSelector } from "react-redux";
 
 const Musicstate = (props) => {
   const [playList, setPlayList] = useState([]);
@@ -22,7 +21,6 @@ const Musicstate = (props) => {
   const [initialLoad, setInitialLoad] = useState(true);
   let prevTrack = localStorage.getItem("prevPlayingTrack");
   let prevIndex = parseInt(localStorage.getItem("prevPlayingIndex"));
-  const { login } = useSelector((state) => state);
 
   const getCategory = () => {
     apiClient.get(`browse/categories`).then(({ data }) => {
@@ -42,7 +40,6 @@ const Musicstate = (props) => {
   };
 
   useEffect(() => {
-    if(!login.current) return;
     getCategory();
     apiClient
       .get(`/browse/new-releases`)
@@ -59,10 +56,8 @@ const Musicstate = (props) => {
         setFeatured(a);
       })
       .catch((err) => console.error(err));
-
-      return(()=>audio.pause())
     // eslint-disable-next-line
-  }, [login.current]);
+  }, []);
 
   const setChangeTrack = (id) => {
     setLoading(true);
@@ -72,11 +67,7 @@ const Musicstate = (props) => {
         setTracks(data.items);
       })
       .catch((err) => {
-        if (err.response.status === 401) {
-          alert(
-            "Your Access token has expired. Please signout and login again"
-          );
-        }
+        
         setLoading(false);
       });
     setLoading(false);

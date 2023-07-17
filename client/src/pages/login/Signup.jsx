@@ -5,34 +5,50 @@ import { useDispatch } from "react-redux";
 import { setProgress } from "../../state/loadingSlice";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BiShow, BiHide } from "react-icons/bi";
 
 const Signup = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [userName, setUserName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const [isShow, setisShow] = useState(false);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    if (userPassword !== confirmPassword) {
+      toast.error('Password Not Match', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
     dispatch(setProgress(40));
     let body = { name: userName, email: userEmail, password: userPassword };
     let res = await fetchBackendData("POST", "/user/register", body);
-    if(res.status==='true'){
-    toast.success(res.message, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+    if (res.status === "true") {
+      toast.success(res.message, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       dispatch(setProgress(100));
-      navigate('/login')
-    }else{
-      dispatch(setProgress(100))
+      navigate("/login");
+    } else {
+      dispatch(setProgress(100));
     }
   };
   return (
@@ -58,13 +74,29 @@ const Signup = () => {
             onChange={(e) => setUserEmail(e.target.value)}
             required
           />
+          <div className="w-full relative grid items-center">
+            <input
+              type={isShow ? "text" : "password"}
+              placeholder="Password"
+              className="bg-bg-main border-none outline-none px-4 py-2 w-full"
+              onChange={(e) => setUserPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+            <div className="absolute right-4 text-xl cursor-pointer">
+              {isShow ? (
+                <BiHide onClick={() => setisShow(false)} />
+              ) : (
+                <BiShow onClick={() => setisShow(true)} />
+              )}
+            </div>
+          </div>
           <input
-            type="password"
-            placeholder="Password"
+            type="text"
+            placeholder="Confirm Password"
             className="bg-bg-main border-none outline-none px-4 py-2"
-            onChange={(e) => setUserPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            minLength={6}
           />
           <button type="submit" className="px-4 py-2 w-full bg-[red]">
             Sign Up
