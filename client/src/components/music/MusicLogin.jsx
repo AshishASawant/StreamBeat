@@ -14,7 +14,6 @@ const MusicLogin = ({ setToken }) => {
       localStorage.setItem("token", newToken);
       setToken(newToken);
       setClientToken(newToken);
-      // exchangeCodeForTokens(newToken); // Call the exchangeCodeForTokens function
     }
     if (token) {
       setToken(token);
