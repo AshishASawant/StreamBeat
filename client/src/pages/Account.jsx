@@ -91,30 +91,30 @@ const Account = ({ setMenu, setToken, userData,setUserImage, userImage }) => {
           />
           <form
             onSubmit={handleSubmit}
-            className="grid gap-3 sm:text-xl text-base whitespace-nowrap w-full"
+            className="grid gap-3 sm:text-xl text-base whitespace-nowrap  "
           >
-            <div className="flex gap-3 items-center ">
+            <div className="flex gap-3 items-center relative">
               <label className="">Name :</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-transparent outline-none border-none flex-1"
+                className="bg-transparent outline-none border-none  mr-8"
                 minLength={2}
               />
               {(prevValue.name !== name) &&
-              <RxCross2 onClick={() => setName(prevValue.name)} className="cursor-pointer font-semibold" />}
+              <RxCross2 onClick={() => setName(prevValue.name)} className="cursor-pointer font-semibold right-2 absolute" />}
             </div>
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center relative">
               <label>Email :</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-transparent outline-none border-none flex-1"
+                className="bg-transparent outline-none border-none "
               />
               {(prevValue.email !== email) &&
-              <RxCross2 onClick={() => setEmail(prevValue.email)} className="cursor-pointer font-semibold" />}
+              <RxCross2 onClick={() => setEmail(prevValue.email)} className="cursor-pointer font-semibold right-2 absolute" />}
             </div>
             <button
               type="submit"
@@ -139,7 +139,7 @@ const Account = ({ setMenu, setToken, userData,setUserImage, userImage }) => {
             <span>Log Out App</span>
           </button>
           <button
-            className="bg-red-700 hover:bg-[red] flex p-2 items-center gap-2 rounded-md flex-1 justify-center whitespace-nowrap"
+            className="bg-red-700 hidden hover:bg-[red]  p-2 items-center gap-2 rounded-md flex-1 justify-center whitespace-nowrap"
             onClick={(e) => {
               e.preventDefault();
               setMenu(false);
