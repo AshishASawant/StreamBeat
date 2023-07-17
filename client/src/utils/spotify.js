@@ -29,7 +29,57 @@ export const getClientToken = () => {
   return token;
 };
 
+let refreshToken=localStorage.getItem('token')
+
+export const exchangeCodeForTokens = async (authorizationCode) => {
+  try {
+    const response = await axios.post(tokenEndpoint, null, {
+      params: {
+        grant_type: 'authorization_code',
+        code: authorizationCode,
+        redirect_uri: redirect_uri,
+        client_id: client_id,
+        client_secret: client_secret,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    const { access_token, refresh_token } = response.data;
+
+    setClientToken(access_token);
+    refreshToken = refresh_token;
+    console.log(refresh_token)
+
+    // Store the refresh token securely for future use
+
+    return access_token;
+  } catch (error) {
+    console.error('Error exchanging code for tokens:', error.response.data);
+    throw error;
+  }
+};
 
 
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const newToken = await refreshToken(/* pass your refresh token here */);
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        return axios(originalRequest);
+      } catch (refreshError) {
+        // Handle refresh token error
+        console.error('Error refreshing token:', refreshError);
+        throw refreshError;
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default apiClient;

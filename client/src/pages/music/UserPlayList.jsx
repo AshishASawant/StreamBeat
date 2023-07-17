@@ -15,7 +15,7 @@ const UserPlayList = ({ prop }) => {
   const navigate=useNavigate()
   const [isEdit, setIsEdit] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState("");
-  const { setTracks,setInitialLoad } = context;
+  const { setTracks } = context;
   const state={name:data.name,description:'Your Playlist',images:[{url:`https://picsum.photos/640?random=${data._id}`}],tracks:{total:data.musicPlaylist.length},allTrackData:data,presentPlaylist:data._id}
 
   useEffect(() => {
@@ -101,8 +101,8 @@ const UserPlayList = ({ prop }) => {
           <BsFillPlayCircleFill
             className="text-green-600 text-[1.5rem] md:text-[2.5rem]"
             onClick={() => {
-              setInitialLoad(0)
               setTracks(tracksList);
+              // setTracksList(null);
             }}
           />
         </div>

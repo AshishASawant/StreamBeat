@@ -18,7 +18,12 @@ const Playlist = () => {
         setTplayList(data.playlists.items);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.response.status) {
+          alert(
+            "Your Access token has expired. Please signout and login again"
+          );
+        }
         setLoading(false);
       });
        // eslint-disable-next-line

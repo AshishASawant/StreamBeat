@@ -11,8 +11,7 @@ import Loading from "../../components/Loading";
 
 const DetailedPlaylist = () => {
   const context = useContext(musicContext);
-  const { setTracks, setCurrentIndex,tracks,setInitialLoad
-  } = context;
+  const { setTracks, setCurrentIndex } = context;
   const [currentList, setcurrentList] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -21,18 +20,12 @@ const DetailedPlaylist = () => {
   const { state } = location;
 
   const handleOnChange = (index) => {
-    setInitialLoad(false)
-    for (let i = 0; i < tracks.length; i++) {
-      if (tracks[i].track.id === currentList[index].track.id) {
-        setCurrentIndex(i)
-        return
-      }
-    }
     setTracks([currentList[index]]);
-    setCurrentIndex(0)
   };
 
-
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
 
   useEffect(() => {
     if (state.allTrackData) {
@@ -59,8 +52,12 @@ const DetailedPlaylist = () => {
         setcurrentList(data.items);
         setLoading(false);
       })
-      .catch(() => {
-    
+      .catch((err) => {
+        if (err.response.status === 401) {
+          alert(
+            "Your Access token has expired. Please signout and login again"
+          );
+        }
         setLoading(false);
       });
   };
@@ -103,8 +100,8 @@ const DetailedPlaylist = () => {
               <IoPlay
                 className="cursor-pointer "
                 onClick={() => {
-                  setInitialLoad(0)
                   setTracks(currentList);
+                  setCurrentIndex(0);
                 }}
               />
             </button>

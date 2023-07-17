@@ -37,12 +37,12 @@ const MobileController = ({ isMobileController, setIsMobileController }) => {
 
   const [show, setShow] = useState(false);
   const [isLyrics, setIsLyrics] = useState(false);
-  
+
   const handleOnChange = (index) => {
     setCurrentTrack(tracks[index].track);
     setCurrentIndex(index);
   };
-  
+
   useEffect(() => {
     let comp = document.getElementById("mobileC");
     comp.addEventListener("scroll", () => enablebg(comp.scrollTop));

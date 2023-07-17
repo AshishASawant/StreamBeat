@@ -16,7 +16,6 @@ const MusicHome = () => {
     tracks,
     setTracks,
     setChangeTrack,
-    setInitialLoad
   } = context;
 
   const {app}=useSelector(state=>state)
@@ -42,7 +41,6 @@ const MusicHome = () => {
         navigate(`../playlist/${item.id}`, { state });
       } 
       else{
-        setInitialLoad(0)
         data.tracks.forEach((element) => {
           newArr.push({ track: element });
           setTracks(newArr);
@@ -70,7 +68,6 @@ const MusicHome = () => {
       if (link) {
         navigate(`../playlist/${item.id}`, { state });
       } else {
-        setInitialLoad(0)
         data.items.forEach((element) => {
           newArr.push({
             track: { ...element, album: { ...element, images: [{ url }] } },

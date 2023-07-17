@@ -64,7 +64,7 @@ const Account = ({ setMenu, setToken, userData,setUserImage, userImage }) => {
 
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-[rgba(0,0,0,0.7)] z-40 overflow-hidden">
-      <div className=" flex flex-col max-w-[25rem] w-full bg-bg-primary h-full float-right p-4 relative overflow-hidden">
+      <div className=" flex flex-col max-w-[25rem] w-full bg-bg-primary h-full float-right p-4 relative">
         <button
           className="p-2 sm:text-xl text-base hover:bg-bg-dull rounded-full w-min"
           onClick={() => setMenu(false)}

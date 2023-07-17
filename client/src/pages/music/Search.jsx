@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const context = useContext(musicContext);
-  const { setTracks,setInitialLoad } = context;
+  const { setTracks } = context;
   const [currentSearchType, setCurrentSearchType] = useState("song");
   const navigate=useNavigate()
 
@@ -1966,10 +1966,6 @@ const Search = () => {
 
   const [artist, setArtist] = useState([]);
   const [sSong, setSSong] = useState([]);
-
-  
-
-
   const getSearch = (e) => {
     apiClient
       .get("/search?q=" + e.target.value + "&type=track,artist")
@@ -1991,7 +1987,7 @@ const Search = () => {
   };
 
   const getArtist = (item, link) => {
-    setInitialLoad(0)
+    console.log(item);
     let newArr = [];
     apiClient
       .get(`artists/${item.id}/top-tracks?market=ES`)
@@ -2059,7 +2055,6 @@ const Search = () => {
                   img={item?.album.images[0]?.url}
                   subtitle={"Artist: " + item.artists[0]?.name}
                   click={() => {
-                    setInitialLoad(false)
                     setTracks([{ track: item }]);
                   }}
                 />

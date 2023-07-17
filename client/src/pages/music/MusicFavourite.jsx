@@ -5,20 +5,17 @@ import musicContext from "../../state/musicContext";
 import apiClient from "../../utils/spotify";
 import DetailedPlaylistCard from "../../components/music/DetailedPlaylistCard";
 import { IoPlay } from "react-icons/io5";
-import Loading from '../../components/Loading'
 
 const MusicFavourite = () => {
   const [favouriteList, setFavouriteList] = useState([]);
   const context = useContext(musicContext);
-  const [loading, setloading] = useState(true)
-  const { setTracks,setCurrentIndex,setInitialLoad } = context;
+  const { setTracks,setCurrentIndex } = context;
 
   useEffect(() => {
     fetchAllFavourite();
   }, []);
 
   const fetchAllFavourite = async () => {
-    setloading(true)
     const url = `/favourite/music`;
     const body = null;
     const response = await fetchBackendData("GET", url, body);
@@ -28,16 +25,14 @@ const MusicFavourite = () => {
         setFavouriteList((prev) => [...prev, { track: res.data }]);
       });
     }
-    setloading(false)
   };
 
   const handleOnChange = (index) => {
-    setInitialLoad(0)
     setTracks([favouriteList[index]]);
   };
 
   return (
-    loading?<Loading/>:<div className="overflow-y-scroll hide-scroll w-full text-text-primary px-2">
+    <div className="overflow-y-scroll hide-scroll w-full text-text-primary px-2">
       <div className="flex gap-5 w-full">
         <LazyLoadImage
           effect="blur"
@@ -51,7 +46,6 @@ const MusicFavourite = () => {
             <IoPlay
               className="cursor-pointer "
               onClick={() => {
-                setInitialLoad(0)
                 setTracks(favouriteList);
                 setCurrentIndex(0)
               }}
